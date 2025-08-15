@@ -132,7 +132,7 @@ const RETURN_TO = "https://armstrongaja.github.io/React-Frontend-test/about.html
   <!-- Weather App -->
   <script type="text/babel">
     const { useState, useEffect, Fragment } = React;
-    const initialLatLong = await getLatLong("Leeds");
+    const initialLatLong = await ["53.8008","-1.5491"]
     
     function WeatherApp() {
       const [location, setLocation] = useState("Leeds");
