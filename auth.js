@@ -106,6 +106,6 @@ async function generateCodeChallenge(verifier) {
 // Add all the hard coded parameters here for the AUTH0 login to use when the functions are called
 const AUTH0_DOMAIN = "dev-48b12ypfjnzz7foo.us.auth0.com";
 const AUTH0_CLIENT_ID = "noq30FodeeaQqjfpwSCXEV1uXWqs42rG";
-const REDIRECT_URI = "https://armstrongaja.github.io/WeatherApp/about.html";
+const REDIRECT_URI = "https://react-frontend-test-fh8w.onrender.com/";
 const AUDIENCE = "https://dev-48b12ypfjnzz7foo.us.auth0.com/api/v2/";
 const RETURN_TO = "https://armstrongaja.github.io/WeatherApp/about.html";
