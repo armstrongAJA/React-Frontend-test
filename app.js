@@ -1,12 +1,7 @@
-import {
-  initAuth0,
-  login,
-  logout,
-  getAccessToken,
-  updateUI,
-} from "./auth.js";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { initAuth0, login, logout, getAccessToken, updateUI } from "./auth.js";
 
-const { useState, useEffect } = React;
 const initialLatLong = ["53.8008", "-1.5491"];
 
 function WeatherApp() {
@@ -89,59 +84,43 @@ function WeatherApp() {
     }
   }, [location]);
 
-  return React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "header",
-      null,
-      React.createElement("h1", null, `7-Day Weather Forecast (${location})`),
-      React.createElement("button", { id: "login-btn", onClick: login }, "Login"),
-      React.createElement("button", { id: "logout-btn", onClick: logout }, "Logout"),
-      React.createElement(
-        "select",
-        { value: location, onChange: (e) => setLocation(e.target.value) },
-        React.createElement("option", { value: "Leeds" }, "Leeds"),
-        React.createElement("option", { value: "London" }, "London"),
-        React.createElement("option", { value: "Manchester" }, "Manchester")
-      )
-    ),
-    loading
-      ? React.createElement("p", null, "Loading...")
-      : weatherData &&
-        React.createElement(
-          "table",
-          null,
-          React.createElement(
-            "thead",
-            null,
-            React.createElement(
-              "tr",
-              null,
-              React.createElement("th", null, "Date"),
-              React.createElement("th", null, "Max Temp (°C)"),
-              React.createElement("th", null, "Weather")
-            )
-          ),
-          React.createElement(
-            "tbody",
-            null,
-            weatherData.data_day.time.map((time, i) =>
-              React.createElement(
-                "tr",
-                { key: i },
-                React.createElement("td", null, formatDate(time)),
-                React.createElement(
-                  "td",
-                  null,
-                  weatherData.data_day.temperature_max[i].toFixed(1)
-                ),
-                React.createElement("td", null, "Weather info")
-              )
-            )
-          )
-        )
+  return (
+    <div>
+      <header>
+        <h1>7-Day Weather Forecast ({location})</h1>
+        <button id="login-btn" onClick={login}>Login</button>
+        <button id="logout-btn" onClick={logout}>Logout</button>
+        <select value={location} onChange={(e) => setLocation(e.target.value)}>
+          <option value="Leeds">Leeds</option>
+          <option value="London">London</option>
+          <option value="Manchester">Manchester</option>
+        </select>
+      </header>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : weatherData ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Max Temp (°C)</th>
+              <th>Weather</th>
+            </tr>
+          </thead>
+          <tbody>
+            {weatherData.data_day.time.map((time, i) => (
+              <tr key={i}>
+                <td>{formatDate(time)}</td>
+                <td>{weatherData.data_day.temperature_max[i].toFixed(1)}</td>
+                <td>Weather info</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : null}
+    </div>
   );
 }
 
-ReactDOM.render(React.createElement(WeatherApp), document.getElementById("root"));
+ReactDOM.render(<WeatherApp />, document.getElementById("root"));
