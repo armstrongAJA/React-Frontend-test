@@ -1,3 +1,11 @@
+import {
+  initAuth0,
+  login,
+  logout,
+  getAccessToken,
+  updateUI,
+} from "./auth.js";
+
 const { useState, useEffect } = React;
 const initialLatLong = ["53.8008", "-1.5491"];
 
@@ -11,7 +19,11 @@ function WeatherApp() {
 
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
-    return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+    return d.toLocaleDateString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
   };
 
   const getLatLong = async (loc) => {
@@ -60,11 +72,11 @@ function WeatherApp() {
 
   useEffect(() => {
     (async () => {
-      const auth = await window.initAuth0();
+      const auth = await initAuth0();
       setIsAuthenticated(auth);
-      await window.updateUI();
+      await updateUI();
       if (auth) {
-        const token = window.getAccessToken();
+        const token = getAccessToken();
         if (token) await initWeather(token);
       }
     })();
@@ -72,7 +84,7 @@ function WeatherApp() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const token = window.getAccessToken();
+      const token = getAccessToken();
       if (token) initWeather(token);
     }
   }, [location]);
@@ -84,8 +96,8 @@ function WeatherApp() {
       "header",
       null,
       React.createElement("h1", null, `7-Day Weather Forecast (${location})`),
-      React.createElement("button", { onClick: window.login }, "Login"),
-      React.createElement("button", { onClick: window.logout }, "Logout"),
+      React.createElement("button", { id: "login-btn", onClick: login }, "Login"),
+      React.createElement("button", { id: "logout-btn", onClick: logout }, "Logout"),
       React.createElement(
         "select",
         { value: location, onChange: (e) => setLocation(e.target.value) },
