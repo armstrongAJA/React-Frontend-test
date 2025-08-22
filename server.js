@@ -4,12 +4,12 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files from /public
+app.use(express.static(__dirname));
 
-// Fallback for SPA routing (optional if you use React Router)
+// Serve index.html for all routes (for React SPA support)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(PORT, () => {
