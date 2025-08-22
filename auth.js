@@ -16,7 +16,7 @@ export async function initAuth0() {
             const res = await fetch("https://weatherapp-3o2e.onrender.com/weather", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code, verifier }),
+                body: JSON.stringify({ code, verifier, redirect_uri: REDIRECT_URI }),
             });
 
             if (!res.ok) throw new Error("Token exchange failed");
